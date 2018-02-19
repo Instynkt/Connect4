@@ -1,6 +1,9 @@
 #OS files 
 *.DS_Store
 
+##Java
+bin/
+
 #eclipse
 *.classpath
 *.project
