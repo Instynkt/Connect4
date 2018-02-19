@@ -14,15 +14,15 @@ public class Connect4 extends JFrame {
 	static int BOARD_WIDTH = 10 * (width + 1) + 150 * width; //lines are 10 px and the cells are 150x150
 	static int BOARD_HEIGHT = 10 * (height + 1) + 150 * height;
 	
-	static int[][] board = new int[height][width];
-//	static int[][] board = {
-//			{0, 0, 0, 0, 0, 0, 0},
-//			{0, 0, 0, 0, 0, 0, 0},
-//			{0, 0, 1, 0, 1, 0, 0},
-//			{0, 0, 2, 1, 0, 0, 0},
-//			{0, 0, 1, 2, 2, 0, 0},
-//			{0, 1, 1, 2, 1, 1, 0}
-//	};
+	//static int[][] board = new int[height][width];
+	static int[][] board = {
+			{0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0},
+			{1, 0, 0, 0, 0, 0, 0},
+			{0, 1, 0, 0, 0, 0, 0},
+			{0, 0, 1, 0, 0, 0, 0},
+			{0, 0, 0, 1, 0, 0, 0}
+	};
 	static boolean turn = true; //true -> red, false -> blue
 	static boolean gameOver = false;
 	
@@ -58,18 +58,27 @@ public class Connect4 extends JFrame {
 					} else {
 						board[col][row] = 2;
 					}
+					
+					for(int i = 0; i < board.length; i++) {
+						for(int j = 0; j < board[i].length; j++) {
+							System.out.print(board[i][j] + " ");
+						}
+						System.out.println();
+					}
+					
+					game.repaint();
+					
+					if(game.existsWinner(board, (turn) ? 1 : 2, 4)) {
+						gameOver = !gameOver;
+						System.out.println("Winner");
+						in.close();
+					}
+					
+					turn = !turn;
 				} catch (ArrayIndexOutOfBoundsException e) {
 					System.out.println("Invalid move!");
-				}
-				game.repaint();
+				}	
 				
-				if(game.existsWinner(board, (turn) ? 1 : 2, 4)) {
-					gameOver = !gameOver;
-					System.out.println("Winner");
-					in.close();
-				}
-				
-				turn = !turn;
 			} catch (NumberFormatException e){
 				System.out.println("Not a number! Try again!");
 			}	
@@ -89,8 +98,8 @@ public class Connect4 extends JFrame {
 						//be evaluated
 						if(((j + n < board[i].length) ? board[i][j + n] != turn : true) //horizontal
 								&& ((i + n < board.length) ? board[i + n][j] != turn : true) //vertical
-								&& ((j + n < board[i].length && i - n > 0) ? board[i - n][j + n] != turn : true) 
-								&& ((j - n > 0 && i - n > 0) ? board[i - n][j - n] != turn : true)) {
+								&& ((j + n < board[i].length && i - n >= 0) ? board[i - n][j + n] != turn : true) 
+								&& ((j - n >= 0 && i - n >= 0) ? board[i - n][j - n] != turn : true)) {
 							break;
 						}
 						if (n + 1 == length) {
