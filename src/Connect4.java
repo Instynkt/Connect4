@@ -7,7 +7,7 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+//test
 public class Connect4 extends JFrame {
 	static int width = 7;
 	static int height = 6;
